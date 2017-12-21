@@ -25,6 +25,7 @@ public class SimpleTCPChat {
     JPanel panelLeft = new JPanel();
     panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.PAGE_AXIS));
 
+    // HOST IPの設定
     JPanel panelIP = new JPanel();
     panelIP.setLayout(new FlowLayout());
 
@@ -34,6 +35,7 @@ public class SimpleTCPChat {
     panelIP.add(txtIP);
     panelLeft.add(panelIP);
 
+    // Portの設定
     JPanel panelPort = new JPanel();
     panelPort.setLayout(new FlowLayout());
 
@@ -44,13 +46,25 @@ public class SimpleTCPChat {
 
     panelLeft.add(panelPort);
 
-    JPanel panelBtn = new JPanel();
-    panelBtn.setLayout(new FlowLayout());
+    // ラジオボタン
+    JPanel panelRadioBtn = new JPanel();
+    panelRadioBtn.setLayout(new FlowLayout());
 
     JRadioButton btnHost = new JRadioButton("Host", true);
     JRadioButton btnGuest = new JRadioButton("Guest", false);
-    panelBtn.add(btnHost);
-    panelBtn.add(btnGuest);
+    panelRadioBtn.add(btnHost);
+    panelRadioBtn.add(btnGuest);
+
+    panelLeft.add(panelRadioBtn);
+
+    // ボタン
+    JPanel panelBtn = new JPanel();
+    panelBtn.setLayout(new GridLayout());
+
+    JButton btnConnect = new JButton("Connect");
+    JButton btnDisConnect = new JButton("Disconnect");
+    panelBtn.add(btnConnect);
+    panelBtn.add(btnDisConnect);
 
     panelLeft.add(panelBtn);
 
@@ -58,18 +72,31 @@ public class SimpleTCPChat {
     //
     // 右側のパネル
     //
+
+    //textArea
     JPanel panelRight = new JPanel();
     panelRight.setLayout(new BorderLayout());
     JTextArea textArea = new JTextArea();
     JScrollPane scrollPane = new JScrollPane(textArea);
     panelRight.add(scrollPane);
 
+    //Text Field
+    JTextField textField = new JTextField();
+    panelRight.add(textField, BorderLayout.SOUTH);
+
+    //
     // JSplitPane
+    //
     JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     splitPane.add(panelLeft, JSplitPane.LEFT);
     splitPane.add(panelRight, JSplitPane.RIGHT);
 
     contentPane.add(splitPane);
+
+
+    // Status
+    JLabel lblStatus = new JLabel("Offline");
+    contentPane.add(lblStatus, BorderLayout.SOUTH);
 
     frame.setVisible(true);
   }
