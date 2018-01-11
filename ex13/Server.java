@@ -4,8 +4,11 @@ import java.net.*;
 
 class Server {
   public static void main(String[] args) {
-    String data = "Toobie ornaught toobie";
+    // •W€“ü—Í
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    System.out.println("Write something you want to send");
     try {
+      String data = new String(in.readLine());
       ServerSocket server = new ServerSocket(1234);
       Socket socket = server.accept();
       System.out.println("Server has connected!");
