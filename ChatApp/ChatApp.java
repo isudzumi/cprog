@@ -5,12 +5,15 @@ import java.net.*;
 import java.io.*;
 import java.lang.*;
 
-public class SimpleTCPChat {
+public class ChatApp implements ActionListener {
 
-  JLabel hostIP, port;
+  JLabel hostIP, port, lblStatus;
   JTextField txtIP, txtPort;
+  JTextArea textArea;
+  JTextField textField;
+  JButton btnConnect;
 
-  public SimpleTCPChat() {
+  public ChatApp() {
     JFrame frame = new JFrame("Simple TCP Chat");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(640, 480);
@@ -64,8 +67,9 @@ public class SimpleTCPChat {
     JPanel panelBtn = new JPanel();
     panelBtn.setLayout(new GridLayout());
 
-    JButton btnConnect = new JButton("Connect");
+    btnConnect = new JButton("Connect");
     JButton btnDisConnect = new JButton("Disconnect");
+    btnConnect.addActionListener(this);
     panelBtn.add(btnConnect);
     panelBtn.add(btnDisConnect);
 
@@ -79,12 +83,12 @@ public class SimpleTCPChat {
     //textArea
     JPanel panelRight = new JPanel();
     panelRight.setLayout(new BorderLayout());
-    JTextArea textArea = new JTextArea();
+    textArea = new JTextArea();
     JScrollPane scrollPane = new JScrollPane(textArea);
     panelRight.add(scrollPane);
 
     //Text Field
-    JTextField textField = new JTextField();
+    textField = new JTextField();
     panelRight.add(textField, BorderLayout.SOUTH);
 
     //
@@ -98,13 +102,33 @@ public class SimpleTCPChat {
 
 
     // Status
-    JLabel lblStatus = new JLabel("Offline");
+    lblStatus = new JLabel("Offline");
     contentPane.add(lblStatus, BorderLayout.SOUTH);
 
     frame.setVisible(true);
   }
 
+  public void actionPerformed(ActionEvent event) {
+    if (event.getSource() == btnConnect) {
+      try {
+        int PORT_NUM = Integer.parseInt(txtPort.getText());
+        textArea.append("接続します\n");
+        ServerSocket server = new ServerSocket(PORT_NUM);
+        Socket socket = server.accept();
+        textArea.append("サーバーと接続されました\n");
+        lblStatus.setText("Online");
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out.print(textField);
+        out.close();
+        socket.close();
+        server.close();
+      } catch (Exception e) {
+        textArea.append("エラーが発生しました\n");
+      }
+    }
+  }
+
   public static void main(String[] args) {
-    SimpleTCPChat s1 = new SimpleTCPChat();
+    ChatApp s1 = new ChatApp();
   }
 }
