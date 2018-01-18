@@ -2,6 +2,7 @@
 *.class
 *.txt
 *.png
+*.jpg
 !ex11/img/*.png
 *.pdf
 *.db
